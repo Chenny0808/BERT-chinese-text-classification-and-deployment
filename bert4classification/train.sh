@@ -4,7 +4,7 @@ export GLUE_DIR=/home/new/Bert/data
 export OUTPUT_DIR=/home/new/Bert/output
 
 python classifier.py \
-  --task_name=setiment \
+  --task_name=sentiment \
   --do_train=true \
   --do_eval=true \
   --data_dir=$GLUE_DIR/ \
