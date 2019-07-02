@@ -24,7 +24,10 @@
 
 和[项目](https://github.com/xmxoxo/BERT-train2deploy)基本一致，特殊的地方我会指出。
 
-1. 写一个自己的文本处理器。有两点需要**注意**：1，改写label 2，把create_examples改成了共有方法，因为我们后面要调用。3，file_base的时候注意跳过第一行，文件数据的第一行是title
+1. 写一个自己的文本处理器。有两点需要**注意**：
+- 1，改写label 
+- 2，把create_examples改成了共有方法，因为我们后面要调用。
+- 3，file_base的时候注意跳过第一行，文件数据的第一行是title
 
    ```python
    class MyProcessor(DataProcessor):
