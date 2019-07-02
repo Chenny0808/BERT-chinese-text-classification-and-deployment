@@ -1,6 +1,5 @@
 from __future__ import print_function
 
-
 import requests
 from classifier import *
 import time
@@ -9,7 +8,7 @@ import numpy as np
 
 tf.enable_eager_execution()
 config = tf.ConfigProto()
-config.gpu_options.allow_growth=True
+config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 
 endpoint = 'http://127.0.0.1:8500'
@@ -57,7 +56,6 @@ def file_based_input_fn_builder(input_file, seq_length, is_training,
     return d
 
 
-
 class Client:
     def __init__(self):
         self.processor = MyProcessor()
@@ -75,7 +73,7 @@ class Client:
             out_line = '0' + '\t' + ' ' + '\n'
             fout.write(out_line)
             for sentence in sentences:
-                out_line = '0'+'\t' + sentence + '\n'
+                out_line = '0' + '\t' + sentence + '\n'
                 fout.write(out_line)
 
     def predict(self, sentences):
@@ -113,13 +111,13 @@ class Client:
 
         result = dict(result.json())
 
-        output = [np.argmax(i)-1 for i in result['output']]
+        output = [np.argmax(i) - 1 for i in result['output']]
         return output
+
 
 if __name__ == '__main__':
     client = Client()
-    msg = ["电池一直用可以用半天，屏幕很好。","机是正品，用着很流畅，618活动时买的，便宜了不少！",""]
+    msg = ["电池一直用可以用半天，屏幕很好。", "机是正品，用着很流畅，618活动时买的，便宜了不少！", ""]
     prediction = client.predict(msg)
     # print('probability: %s'%prediction)
     print(prediction)
-

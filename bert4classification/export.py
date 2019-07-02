@@ -62,6 +62,7 @@ def serving_input_receiver_fn():
     features = {'input_ids': input_ids, 'input_mask': input_mask, 'segment_ids': segment_ids, "label_ids": label_ids}
     return tf.estimator.export.ServingInputReceiver(features, receive_tensors)
 
+
 def main(_):
     tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -101,13 +102,11 @@ def main(_):
         use_tpu=FLAGS.use_tpu,
         use_one_hot_embeddings=FLAGS.use_tpu)
 
-
     estimator = tf.contrib.tpu.TPUEstimator(use_tpu=FLAGS.use_tpu,
                                             model_fn=model_fn,
                                             config=run_config,
                                             predict_batch_size=FLAGS.predict_batch_size,
                                             export_to_tpu=False)
-
 
     estimator.export_savedmodel(FLAGS.serving_model_save_path, serving_input_receiver_fn)
 

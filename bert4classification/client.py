@@ -1,6 +1,5 @@
 from __future__ import print_function
 
-
 import requests
 from classifier import *
 import time
@@ -9,7 +8,7 @@ import numpy as np
 
 tf.enable_eager_execution()
 config = tf.ConfigProto()
-config.gpu_options.allow_growth=True
+config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 
 endpoint = 'http://127.0.0.1:8500'
@@ -28,7 +27,6 @@ def input_fn_builder(features, seq_length, is_training, drop_remainder):
         all_input_mask.append(feature.input_mask)
         all_segment_ids.append(feature.segment_ids)
         all_label_ids.append(feature.label_id)
-
 
     """The actual input function."""
     batch_size = FLAGS.predict_batch_size
@@ -64,6 +62,7 @@ def input_fn_builder(features, seq_length, is_training, drop_remainder):
     d = d.batch(batch_size=batch_size, drop_remainder=drop_remainder)
     return d
 
+
 class Client:
     def __init__(self):
         self.processor = MyProcessor()
@@ -81,17 +80,17 @@ class Client:
             out_line = '0' + '\t' + ' ' + '\n'
             fout.write(out_line)
             for sentence in sentences:
-                out_line = '0'+'\t' + sentence + '\n'
+                out_line = '0' + '\t' + sentence + '\n'
                 fout.write(out_line)
 
     def predict(self, text_list):
-        sentences = [["0",sentence]for sentence in text_list]
-        predict_examples = self.processor.create_examples(sentences, set_type='test',file_base=False)
+        sentences = [["0", sentence] for sentence in text_list]
+        predict_examples = self.processor.create_examples(sentences, set_type='test', file_base=False)
         label_list = self.processor.get_labels()
         tokenizer = tokenization.FullTokenizer(
             vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
 
-        features = convert_examples_to_features(predict_examples, label_list,FLAGS.max_seq_length, tokenizer)
+        features = convert_examples_to_features(predict_examples, label_list, FLAGS.max_seq_length, tokenizer)
 
         predict_dataset = input_fn_builder(
             features=features,
@@ -116,13 +115,13 @@ class Client:
 
         result = dict(result.json())
 
-        output = [np.argmax(i)-1 for i in result['output']]
+        output = [np.argmax(i) - 1 for i in result['output']]
         return output
+
 
 if __name__ == '__main__':
     client = Client()
-    msg = ["电池一直用可以用半天，屏幕很好。","机是正品，用着很流畅，618活动时买的，便宜了不少！",""]
+    msg = ["电池一直用可以用半天，屏幕很好。", "机是正品，用着很流畅，618活动时买的，便宜了不少！", ""]
     prediction = client.predict(msg)
     # print('probability: %s'%prediction)
     print(prediction)
-
