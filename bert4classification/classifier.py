@@ -4,10 +4,13 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from bert.run_classifier import *
-import tensorflow as tf
 
+import os
+import tensorflow as tf
 from tqdm import tqdm
+
+from bert.code.run_classifier import *
+from bert.code import tokenization
 
 
 class MyProcessor(DataProcessor):
